@@ -1,8 +1,14 @@
 .case {
     border: 1px solid black;
-    width: 20px;
+    width: 1.1vw;
     text-align: center;
+    height: 1.1vw;
+    font-size: 1.1vw;
   }
+    .case:hover {
+        background-color: grey;
+      cursor: pointer;
+    }
   .d-flex {
     display: flex;
     justify-content: center;
