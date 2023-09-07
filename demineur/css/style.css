@@ -1,0 +1,26 @@
+.case {
+    border: 1px solid black;
+    width: 20px;
+    text-align: center;
+  }
+  .d-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .direction-column {
+    flex-direction: column;
+  }
+  .bomb{
+    background-color: red;
+    color: white;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1{
+    text-align: center;
+  }

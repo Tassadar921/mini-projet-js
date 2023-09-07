@@ -1,5 +1,9 @@
-function genBombs(size, bombsNumber){
-    const grid = [];
+export default class Game {
+
+    constructor(size, bombsNumber) {}
+
+genBombs(size, bombsNumber){
+    this.grid = [];
     for(let i = 0; i<size; i++){
         grid.push([]);
         for(let j = 0; j<size; j++){
@@ -13,7 +17,7 @@ function genBombs(size, bombsNumber){
     return grid;
 }
 
-function checkIfIsBomb(grid, x, y, count){
+checkIfIsBomb(grid, x, y, count){
     if(grid[x][y] === 'B'){
         return count+1;
     }else{
@@ -21,7 +25,7 @@ function checkIfIsBomb(grid, x, y, count){
     }
 }
 
-function getBombsNumber(grid, x, y){
+getBombsNumber(grid, x, y){
     let count = 0;
     if(x>0){
         if(y>0){
@@ -50,7 +54,7 @@ function getBombsNumber(grid, x, y){
     return count;
 }
 
-function fillGrid(size, bombsNumber){
+fillGrid(size, bombsNumber){
     const grid = genBombs(size, bombsNumber);
     for(let x = 0; x < grid.length; x++){
         for(let y = 0; y < grid.length; y++){
@@ -62,7 +66,7 @@ function fillGrid(size, bombsNumber){
     return grid;
 }
 
-function createGrid (grid){
+createGrid (grid){
     let rawNumber = grid.length;
     let columnNumber = grid[0].length;
   
@@ -87,7 +91,7 @@ function createGrid (grid){
     }
   }
 
-  function fillHTMLGrid(grid){
+fillHTMLGrid(grid){
     let rowNumber = grid.length;
     let columnNumber = grid[0].length;
   
@@ -101,10 +105,4 @@ function createGrid (grid){
       }
     }
   }
-
-let body = document.querySelector('.direction-column');
-
-let grid = fillGrid(35, 200);
-
-createGrid(grid);
-fillHTMLGrid(grid);
+}
