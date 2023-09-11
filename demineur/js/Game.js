@@ -8,6 +8,7 @@ export default class Game {
         this.genBombs(size, bombsNumber);
         this.fillGrid();
         this.playing = true;
+        this.remainingTile = size*size;
     }
 
     genBombs(size, bombsNumber) {
@@ -18,7 +19,6 @@ export default class Game {
                 this.grid[i].push(0);
             }
         }
-
         for (let i = 0; i < bombsNumber; i++) {
             this.grid[Math.floor(Math.random() * size)][Math.floor(Math.random() * size)] = 'B';
         }
@@ -26,6 +26,7 @@ export default class Game {
 
     checkIfIsBomb(x, y, count) {
         if (this.grid[x][y] === 'B') {
+            this.remainingTile--;
             return count + 1;
         } else {
             return count;
@@ -58,7 +59,6 @@ export default class Game {
         if (y < this.grid.length) {
             count = this.checkIfIsBomb(x, y + 1, count);
         }
-        console.log(count);
         return count;
     }
 
@@ -80,10 +80,10 @@ export default class Game {
             let newDiv = document.createElement('div');
             newDiv.classList.add('row', 'd-flex');
             this.body.appendChild(newDiv);
-            rawNumber = rawNumber - 1;
+            rawNumber--;
         }
 
-        let raw = document.querySelectorAll('.row');
+        const raw = document.querySelectorAll('.row');
         while (columnNumber > 0) {
             let i = 0;
             raw.forEach(element => {
@@ -93,19 +93,29 @@ export default class Game {
                 element.appendChild(newCase);
                 newCase.addEventListener('click', () => {
                     if(this.playing){
-                    let x = Number(newCase.getAttribute('id').split('.')[0]);
-                    let y = Number(newCase.getAttribute('id').split('.')[1]);
+                    const x = Number(newCase.getAttribute('id').split('.')[0]);
+                    const y = Number(newCase.getAttribute('id').split('.')[1]);
                     if (this.grid[x][y] === 'B') {
                         newCase.classList.add('bomb');
-                        console.log('perdu');
-                    }else{
+                        this.playing = false;
+                        document.getElementById('message').textContent = 'Perdu !';
+                        let bombImage = document.createElement('img');
+                        bombImage.src = '../assets/bomb.png';
+                        bombImage.classList.add('bombImage');
+                        newCase.appendChild(bombImage);
+                    } else {
                         newCase.textContent = this.grid[x][y];
+                        this.remainingTile--;
+                        if(!this.remainingTile){
+                            this.playing = false;
+                            document.getElementById('message').textContent = 'Gagné !'
+                        }
                     }
                 }
                 });
                 i = i + 1;
             });
-            columnNumber = columnNumber - 1;
+            columnNumber--;
         }
     }
 

@@ -1,9 +1,9 @@
 .case {
     border: 1px solid black;
-    width: 1.1vw;
+    width: 1.5rem;
     text-align: center;
-    height: 1.1vw;
-    font-size: 1vw;
+    height: 1.5rem;
+    font-size: 1.3rem;
   }
     .case:hover {
         background-color: grey;
@@ -29,4 +29,12 @@
 
   h1{
     text-align: center;
+  }
+  #message{
+      text-align: center;
+      color: red;
+      font-size: 2rem;
+  }
+  .bombImage{
+      width:1.5rem;
   }
