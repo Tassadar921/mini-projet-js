@@ -1,11 +1,13 @@
 export default class Game {
 
     grid = [];
+    playing = false;
 
     constructor(body, size, bombsNumber) {
         this.body = body;
-        this.fillGrid();
         this.genBombs(size, bombsNumber);
+        this.fillGrid();
+        this.playing = true;
     }
 
     genBombs(size, bombsNumber) {
@@ -56,6 +58,7 @@ export default class Game {
         if (y < this.grid.length) {
             count = this.checkIfIsBomb(x, y + 1, count);
         }
+        console.log(count);
         return count;
     }
 
@@ -69,7 +72,7 @@ export default class Game {
         }
     }
 
-    createHTMLGrid() {
+    render() {
         let rawNumber = this.grid.length;
         let columnNumber = this.grid[0].length;
 
@@ -88,29 +91,23 @@ export default class Game {
                 newCase.classList.add('case');
                 newCase.setAttribute('id', `${raw.length - columnNumber}.${i}`);
                 element.appendChild(newCase);
+                newCase.addEventListener('click', () => {
+                    if(this.playing){
+                    let x = Number(newCase.getAttribute('id').split('.')[0]);
+                    let y = Number(newCase.getAttribute('id').split('.')[1]);
+                    if (this.grid[x][y] === 'B') {
+                        newCase.classList.add('bomb');
+                        console.log('perdu');
+                    }else{
+                        newCase.textContent = this.grid[x][y];
+                    }
+                }
+                });
                 i = i + 1;
             });
             columnNumber = columnNumber - 1;
         }
     }
 
-    fillHTMLGrid() {
-        let rowNumber = this.grid.length;
-        let columnNumber = this.grid[0].length;
-
-        for (let i = 0; i < columnNumber; i++) {
-            for (let j = 0; j < rowNumber; j++) {
-                let caseSelected = document.getElementById(`${i}.${j}`);
-                caseSelected.textContent = this.grid[j][i];
-                if (caseSelected.textContent === 'B') {
-                    caseSelected.classList.add('bomb');
-                }
-            }
-        }
-    }
-
-    render() {
-        this.createHTMLGrid();
-        this.fillHTMLGrid();
-    }
+    
 }
