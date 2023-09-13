@@ -8,13 +8,51 @@
     <link rel="stylesheet" href="./css/fireworks.css">
 </head>
 <body>
-<div class="pyro">
-    <div class="before"></div>
-<h1>Démineur</h1>
-<div class="grid d-flex direction-column"></div>
-<p id="message"></p>
-    <div class="after"></div>
-</div>
+<section id="home">
+    <div>
+        <button id="play">PLAY</button>
+    </div>
+    <div>
+        <div>
+            <h2>Game settings</h2>
+        </div>
+        <div>
+            <div>
+                <h3>Grid size</h3>
+            </div>
+            <input type="range" id="gridSize" min="1" max="30">
+            <label for="gridSize" id="gridSizeLabel"></label>
+        </div>
+        <div>
+            <div>
+                <h3>Bombs number</h3>
+            </div>
+            <input type="range" id="bombsNumber" min="1" max="20">
+            <label for="bombsNumber" id="bombsNumberLabel"></label>
+        </div>
+    </div>
+    <div>
+        <label for="difficulty">Difficulty</label>
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="normal">Normal</option>
+            <option value="hard">Hard</option>
+            <option value="extreme">Extreme</option>
+            <option value="custom">Custom</option>
+        </select>
+    </div>
+</section>
+
+<section id="game">
+    <div id="resultEffect">
+        <div class="before"></div>
+        <h1>Démineur</h1>
+        <div class="grid d-flex direction-column"></div>
+        <p id="message"></p>
+        <div class="after"></div>
+    </div>
+</section>
+
 </body>
 <script src="./js/main.js" type="module"></script>
 </html>

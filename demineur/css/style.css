@@ -1,9 +1,15 @@
+.gridSize, .bombsNumber{
+    margin-right: 50px;
+}
+
 .case {
     border: 1px solid black;
     width: 1.5rem;
     text-align: center;
     height: 1.5rem;
     font-size: 1.3rem;
+    position: relative;
+    overflow: hidden;
   }
     .case:hover {
         background-color: grey;
@@ -19,7 +25,6 @@
   }
   .bomb{
     background-color: red;
-    color: white;
   }
   * {
     box-sizing: border-box;
@@ -36,5 +41,12 @@
       font-size: 2rem;
   }
   .bombImage{
-      width:1.5rem;
+      width:1.7rem;
+  }
+  .flagImage{
+      width: 100%;
+      scale: 1.8;
+  }
+  .flag{
+      background-color: orange;
   }
