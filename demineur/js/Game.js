@@ -107,7 +107,7 @@ export default class Game {
 
 
     revealAround(x, y, checked) {
-        checked.push({ x, y });
+        checked.push({x, y});
 
         if (x - 1 >= 0) {
             document.getElementById(`${x - 1}.${y}`).textContent = this.grid[x - 1][y];
@@ -231,6 +231,4 @@ export default class Game {
             columnNumber--;
         }
     }
-
-
 }

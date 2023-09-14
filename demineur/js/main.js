@@ -13,8 +13,10 @@ const gridSize = document.getElementById('gridSize');
 const bombsNumber = document.getElementById('bombsNumber');
 const difficulty = document.getElementById('difficulty');
 
+//on cache le jeu au chargement de la page
 document.getElementById('game').hidden = true;
 
+//set l'affichage en fonction d'une difficulté donnée
 const setValues = (gridSizeValue = gridSize.value, custom = true, difficulty = 'custom') => {
     gridSize.value = gridSizeValue;
     if (custom) {
@@ -28,6 +30,7 @@ const setValues = (gridSizeValue = gridSize.value, custom = true, difficulty = '
     document.getElementById('bombsNumberLabel').textContent = bombsNumber.value.toString();
 };
 
+//initialise toutes les datas au niveau normal
 const initSelect = () => {
     difficulty.value = 'normal';
     gridSize.value = difficulties.normal.gridSize;
@@ -37,21 +40,26 @@ const initSelect = () => {
 
 initSelect();
 
+//select de la difficulté
 difficulty.addEventListener('change', (e) => {
     setValues(difficulties[difficulty.value].gridSize, false, difficulty.value);
 });
 
+//bouton play : on lance la partie au clic
 document.getElementById('play').addEventListener('click', () => {
     document.getElementById('home').hidden = true;
     document.getElementById('game').hidden = false;
     const game = new Game.default(body, gridSize.value, bombsNumber.value);
     game.render();
 });
+
+//range de la taille de la grid
 gridSize.addEventListener('input', () => {
     setValues();
     difficulty.value = 'custom';
 });
 
+//range du nombre de bombes
 bombsNumber.addEventListener('input', () => {
     document.getElementById('bombsNumberLabel').textContent = bombsNumber.value.toString();
     difficulty.value = 'custom';
