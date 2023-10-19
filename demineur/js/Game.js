@@ -1,17 +1,18 @@
 export default class Game {
 
-    grid = [];
+    grid;
     playing = false;
 
     constructor(body, size, bombsNumber) {
         this.body = body;
-        this.remainingTile = size * size;
-        this.genBombs(size, bombsNumber);
+        this.genGrid(size);
+        this.genBombs(bombsNumber);
         this.fillGrid();
         this.playing = true;
+        this.render(size*size-bombsNumber);
     }
 
-    genBombs(size, bombsNumber) {
+    genGrid(size) {
         this.grid = [];
         for (let i = 0; i < size; i++) {
             this.grid.push([]);
@@ -19,13 +20,17 @@ export default class Game {
                 this.grid[i].push(0);
             }
         }
+    }
+
+    genBombs(bombsNumber) {
         for (let i = 0; i < bombsNumber; i++) {
-            const x = Math.floor(Math.random() * size);
-            const y = Math.floor(Math.random() * size);
-            if (this.grid[x][y] !== 'B') {
-                this.remainingTile--;
+            const x = Math.floor(Math.random() * this.grid.length);
+            const y = Math.floor(Math.random() * this.grid.length);
+            if (this.grid[x][y] === 'B') {
+                i--;
+            } else {
+                this.grid[x][y] = 'B';
             }
-            this.grid[x][y] = 'B';
         }
     }
 
@@ -94,6 +99,7 @@ export default class Game {
                 }
             }
         }
+        this.endGame();
     }
 
     removeFlag(gridCase) {
@@ -105,69 +111,39 @@ export default class Game {
         return checked.some(item => item.x === x && item.y === y);
     }
 
-
     revealAround(x, y, checked) {
+        if (checked.some(item => item.x === x && item.y === y)) {
+            return;
+        }
+
         checked.push({x, y});
 
-        if (x - 1 >= 0) {
-            document.getElementById(`${x - 1}.${y}`).textContent = this.grid[x - 1][y];
-            this.remainingTile--;
-            if (this.grid[x - 1][y] === 0 && !this.isChecked(checked, x - 1, y)) {
-                this.revealAround(x - 1, y, checked);
-            }
-        }
-        if (y - 1 >= 0) {
-            document.getElementById(`${x}.${y - 1}`).textContent = this.grid[x][y - 1];
-            this.remainingTile--;
-            if (this.grid[x][y - 1] === 0 && !this.isChecked(checked, x, y - 1)) {
-                this.revealAround(x, y - 1, checked);
-            }
-        }
-        if (x + 1 < this.grid.length) {
-            document.getElementById(`${x + 1}.${y}`).textContent = this.grid[x + 1][y];
-            this.remainingTile--;
-            if (this.grid[x + 1][y] === 0 && !this.isChecked(checked, x + 1, y)) {
-                this.revealAround(x + 1, y, checked);
-            }
-        }
-        if (y + 1 < this.grid.length) {
-            document.getElementById(`${x}.${y + 1}`).textContent = this.grid[x][y + 1];
-            this.remainingTile--;
-            if (this.grid[x][y + 1] === 0 && !this.isChecked(checked, x, y + 1)) {
-                this.revealAround(x, y + 1, checked);
-            }
-        }
-        if (x - 1 >= 0 && y - 1 >= 0) {
-            document.getElementById(`${x - 1}.${y - 1}`).textContent = this.grid[x - 1][y - 1];
-            this.remainingTile--;
-            if (this.grid[x - 1][y - 1] === 0 && !this.isChecked(checked, x - 1, y - 1)) {
-                this.revealAround(x - 1, y - 1, checked);
-            }
-        }
-        if (x - 1 >= 0 && y + 1 < this.grid.length) {
-            document.getElementById(`${x - 1}.${y + 1}`).textContent = this.grid[x - 1][y + 1];
-            this.remainingTile--;
-            if (this.grid[x - 1][y + 1] === 0 && !this.isChecked(checked, x - 1, y + 1)) {
-                this.revealAround(x - 1, y + 1, checked);
-            }
-        }
-        if (x + 1 < this.grid.length && y - 1 >= 0) {
-            document.getElementById(`${x + 1}.${y - 1}`).textContent = this.grid[x + 1][y - 1];
-            this.remainingTile--;
-            if (this.grid[x + 1][y - 1] === 0 && !this.isChecked(checked, x + 1, y - 1)) {
-                this.revealAround(x + 1, y - 1, checked);
-            }
-        }
-        if (x + 1 < this.grid.length && y + 1 < this.grid.length) {
-            document.getElementById(`${x + 1}.${y + 1}`).textContent = this.grid[x + 1][y + 1];
-            this.remainingTile--;
-            if (this.grid[x + 1][y + 1] === 0 && !this.isChecked(checked, x + 1, y + 1)) {
-                this.revealAround(x + 1, y + 1, checked);
+        const coo = [
+            {x: x - 1, y},
+            {x, y: y - 1},
+            {x: x + 1, y},
+            {x, y: y + 1},
+            {x: x - 1, y: y - 1},
+            {x: x - 1, y: y + 1},
+            {x: x + 1, y: y + 1},
+            {x: x + 1, y: y - 1}
+        ];
+
+        for (const pair of coo) {
+            if (pair.x >= 0 && pair.x < this.grid.length && pair.y >= 0 && pair.y < this.grid[0].length) {
+                const cell = document.getElementById(`${pair.x}.${pair.y}`);
+                cell.classList.add('revealed');
+                if (cell && !this.isChecked(checked, pair.x, pair.y)) {
+                    cell.textContent = this.grid[pair.x][pair.y];
+                    if (this.grid[pair.x][pair.y] === 0) {
+                        this.revealAround(pair.x, pair.y, checked);
+                    }
+                }
             }
         }
     }
 
-    render() {
+    render(freeTiles) {
         let rawNumber = this.grid.length;
         let columnNumber = this.grid[0].length;
 
@@ -194,15 +170,14 @@ export default class Game {
                         if (this.grid[x][y] === 'B') {
                             newCase.classList.add('bomb');
                             this.playing = false;
-                            document.getElementById('message').textContent = 'Perdu !';
+                              document.getElementById('message').textContent = 'Perdu !';
                             this.reveal();
                         } else {
                             newCase.textContent = this.grid[x][y];
-                            this.remainingTile--;
                             if (newCase.textContent === '0') {
                                 this.revealAround(x, y, []);
                             }
-                            if (!this.remainingTile) {
+                            if (document.getElementsByClassName('revealed').length === freeTiles) {
                                 this.playing = false;
                                 document.getElementById('message').textContent = 'Gagné !'
                                 document.getElementById('resultEffect').classList.add('pyro');
@@ -230,5 +205,12 @@ export default class Game {
             });
             columnNumber--;
         }
+    }
+
+    endGame() {
+        const button = document.createElement('button');
+        button.addEventListener('click', () => window.location.reload());
+        button.textContent = 'Reset';
+        document.body.appendChild(button);
     }
 }

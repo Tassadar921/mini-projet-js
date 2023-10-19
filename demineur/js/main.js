@@ -1,4 +1,4 @@
-import * as Game from './Game.js';
+import Game from './Game.js';
 
 const difficulties = {
     easy: {gridSize: 5, bombsNumber: 6},
@@ -49,8 +49,7 @@ difficulty.addEventListener('change', (e) => {
 document.getElementById('play').addEventListener('click', () => {
     document.getElementById('home').hidden = true;
     document.getElementById('game').hidden = false;
-    const game = new Game.default(body, gridSize.value, bombsNumber.value);
-    game.render();
+    new Game(body, gridSize.value, bombsNumber.value);
 });
 
 //range de la taille de la grid
