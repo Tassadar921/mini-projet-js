@@ -1,4 +1,4 @@
-.gridSize, .bombsNumber{
+.gridSize, .bombsNumber {
     margin-right: 50px;
 }
 
@@ -10,43 +10,63 @@
     font-size: 1.3rem;
     position: relative;
     overflow: hidden;
-  }
-    .case:hover {
-        background-color: grey;
-      cursor: pointer;
-    }
-  .d-flex {
+}
+
+.case:hover {
+    background-color: grey;
+    cursor: pointer;
+}
+
+.d-flex {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .direction-column {
+}
+
+.direction-column {
     flex-direction: column;
-  }
-  .bomb{
+}
+
+.bomb {
     background-color: red;
-  }
-  * {
+}
+
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-  }
+}
 
-  h1{
+h1 {
     text-align: center;
-  }
-  #message{
-      text-align: center;
-      color: red;
-      font-size: 2rem;
-  }
-  .bombImage{
-      width:1.7rem;
-  }
-  .flagImage{
-      width: 100%;
-      scale: 1.8;
-  }
-  .flag{
-      background-color: orange;
-  }
+}
+
+#message {
+    text-align: center;
+    color: red;
+    font-size: 2rem;
+}
+
+.bombImage {
+    width: 1.7rem;
+}
+
+.flagImage {
+    width: 100%;
+    scale: 1.8;
+}
+
+.flag {
+    background-color: orange;
+}
+
+#video {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+

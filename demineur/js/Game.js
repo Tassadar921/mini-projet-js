@@ -10,6 +10,12 @@ export default class Game {
         this.fillGrid();
         this.playing = true;
         this.render(size*size-bombsNumber);
+        const video = document.getElementById('video');
+        video.hidden = true;
+        video.addEventListener('ended', () => {
+            video.hidden = true;
+            video.currentTime = 0;
+        });
     }
 
     genGrid(size) {
@@ -170,9 +176,13 @@ export default class Game {
                         if (this.grid[x][y] === 'B') {
                             newCase.classList.add('bomb');
                             this.playing = false;
-                              document.getElementById('message').textContent = 'Perdu !';
+                            const video = document.getElementById('video');
+                            video.hidden = false;
+                            video.play();
+                            document.getElementById('message').textContent = 'Perdu !';
                             this.reveal();
                         } else {
+                            new Audio('../assets/click.mp3').play();
                             newCase.textContent = this.grid[x][y];
                             if (newCase.textContent === '0') {
                                 this.revealAround(x, y, []);
@@ -181,6 +191,8 @@ export default class Game {
                                 this.playing = false;
                                 document.getElementById('message').textContent = 'Gagné !'
                                 document.getElementById('resultEffect').classList.add('pyro');
+                                new Audio('../assets/artifice.mp3').play();
+                                new Audio('../assets/clap.mp3').play();
                                 this.reveal();
                             }
                         }
